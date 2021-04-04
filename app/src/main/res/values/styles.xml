@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+
+    <style name="info_btn" parent="Widget.AppCompat.Button.Borderless">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginEnd">16dp</item>
+        <item name="android:layout_marginRight">16dp</item>
+        <item name="android:fontFamily">@font/roboto</item>
+        <item name="android:minHeight">30dp</item>
+        <item name="android:height">40dp</item>
+        <item name="android:padding">@dimen/zero_margin</item>
+        <item name="android:paddingLeft">@dimen/zero_margin</item>
+        <item name="android:paddingTop">@dimen/zero_margin</item>
+        <item name="android:paddingRight">@dimen/zero_margin</item>
+        <item name="android:paddingBottom">@dimen/zero_margin</item>
+        <item name="android:textColor">@color/gray_dark</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="title">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">16dp</item>
+        <item name="android:layout_marginLeft">16dp</item>
+        <item name="android:layout_marginTop">16dp</item>
+        <item name="android:layout_marginEnd">16dp</item>
+        <item name="android:layout_marginRight">16dp</item>
+        <item name="android:fontFamily">@font/roboto_bold</item>
+        <item name="android:minHeight">30dp</item>
+        <item name="android:textColor">@color/main_color</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+
+    <style name="sub_lbl">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginLeft">10dp</item>
+        <item name="android:layout_marginTop">10dp</item>
+        <item name="android:fontFamily">@font/roboto</item>
+        <item name="android:textColor">@color/main_color</item>
+    </style>
+
+    <style name="main_lbl">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginLeft">10dp</item>
+        <item name="android:layout_marginRight">10dp</item>
+        <item name="android:fontFamily">@font/roboto_bold</item>
+        <item name="android:textColor">@color/main_color</item>
+    </style>
+</resources>
