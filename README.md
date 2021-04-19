@@ -4,7 +4,7 @@ Also collaborate with other people as members of the same group.
 This was created for educational purposes. 
 
 ### Features
-* Authentication and registration system.
+* Authentication and registration system
 ##### Coming soon
 * Management Groups
 * Management ToDos
