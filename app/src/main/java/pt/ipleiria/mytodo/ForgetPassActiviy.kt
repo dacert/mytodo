@@ -6,10 +6,13 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_forget_pass_activiy.*
+import java.util.logging.Level
+import java.util.logging.Logger
 
 class ForgetPassActiviy : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME)
         setTitle("Forget Password")
         setContentView(R.layout.activity_forget_pass_activiy)
         forget_pass_btn_back.setOnClickListener{
@@ -37,6 +40,7 @@ class ForgetPassActiviy : AppCompatActivity() {
                                     ).show()
                                     onBackPressed()
                                 }else{
+                                    logger.log(Level.INFO, task.exception!!.message.toString())
                                     Toast.makeText(
                                         this@ForgetPassActiviy,
                                         task.exception!!.message.toString(),

@@ -8,10 +8,13 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import kotlinx.android.synthetic.main.activity_register.*
+import java.util.logging.Level
+import java.util.logging.Logger
 
 class RegisterActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME)
         setContentView(R.layout.activity_register)
         setTitle("Register")
         register_login_btn.setOnClickListener{
@@ -34,13 +37,6 @@ class RegisterActivity : AppCompatActivity() {
                         Toast.LENGTH_SHORT
                     ).show()
                 }
-                /*TextUtils.isEmpty(register_camera_id.text.toString().trim{ it <= ' '}) -> {
-                    Toast.makeText(
-                        this@RegisterActivity,
-                        "Please enter your camera ID.",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }*/
                 else -> {
                     val email = register_email.text.toString().trim{ it <= ' '}
                     val password = register_pass.text.toString().trim{ it <= ' '}
@@ -62,6 +58,7 @@ class RegisterActivity : AppCompatActivity() {
                                     startActivity(intent)
                                     finish()
                                 }else{
+                                    logger.log(Level.INFO, task.exception!!.message.toString())
                                     Toast.makeText(
                                         this@RegisterActivity,
                                         task.exception!!.message.toString(),

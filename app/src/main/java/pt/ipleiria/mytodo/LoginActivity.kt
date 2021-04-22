@@ -8,10 +8,13 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import kotlinx.android.synthetic.main.activity_login.*
+import java.util.logging.Level
+import java.util.logging.Logger
 
 class LoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME)
         setTitle("Login")
         setContentView(R.layout.activity_login)
         val user = FirebaseAuth.getInstance().currentUser
@@ -68,7 +71,7 @@ class LoginActivity : AppCompatActivity() {
                                     startActivity(intent)
                                     finish()
                                 }else{
-                                    print(task.exception!!.message.toString())
+                                    logger.log(Level.INFO, task.exception!!.message.toString())
                                     Toast.makeText(
                                         this@LoginActivity,
                                         task.exception!!.message.toString(),
