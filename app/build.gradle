@@ -4,6 +4,16 @@ plugins {
     id 'com.google.gms.google-services'
     id 'kotlin-kapt'
     id 'kotlin-android-extensions'
+    id "org.sonarqube" version "2.7"
+}
+
+sonarqube {
+    properties {
+        property "sonar.projectKey", "2021_project2"
+        property "sonar.projectName", "MyToDo"
+        property "sonar.host.url", "https://sonar.creis.pt"
+        property "sonar.sources", "src/main/java"
+    }
 }
 
 android {
