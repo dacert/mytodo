@@ -9,6 +9,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
 import com.google.firebase.auth.FirebaseAuth
 import pt.ipleiria.mytodo.databinding.ActivityMainBinding
+import pt.ipleiria.mytodo.shared.SharedUser
 
 
 class MainActivity : AppCompatActivity() {
@@ -22,13 +23,13 @@ class MainActivity : AppCompatActivity() {
         drawerLayout = binding.drawerLayout
 
         val navController = this.findNavController(R.id.myNavHostFragment)
-        binding.navView.menu.findItem(R.id.logout_btn_item).setOnMenuItemClickListener({ menuItem ->
+        binding.navView.menu.findItem(R.id.logout_btn_item).setOnMenuItemClickListener { _ ->
             logout()
             true
-        })
+        }
 
         navController.addOnDestinationChangedListener { nc, nd, _ ->
-            if (nd.getId() == R.id.logout_btn){
+            if (nd.id == R.id.logout_btn){
                 logout();
             }
             if(nd.id == nc.graph.startDestination){
@@ -39,6 +40,9 @@ class MainActivity : AppCompatActivity() {
         }
         NavigationUI.setupActionBarWithNavController(this, navController, drawerLayout)
         NavigationUI.setupWithNavController(binding.navView, navController)
+
+        if(savedInstanceState == null)
+            SharedUser.email = intent.extras?.getString("email_id", "")!!
     }
 
 
@@ -49,6 +53,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun logout(){
+        SharedUser.email = ""
         FirebaseAuth.getInstance().signOut()
         startActivity(Intent(this@MainActivity, LoginActivity::class.java))
         finish()

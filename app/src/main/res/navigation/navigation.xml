@@ -11,4 +11,11 @@
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" >
     </fragment>
+
+    <fragment
+        android:id="@+id/menu_item_groups"
+        android:name="pt.ipleiria.mytodo.ui.groups.GroupsFragment"
+        android:label="@string/menu_groups"
+        tools:layout="@layout/groups_fragment">
+    </fragment>
 </navigation>
