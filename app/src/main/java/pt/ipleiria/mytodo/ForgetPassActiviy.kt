@@ -13,7 +13,7 @@ class ForgetPassActiviy : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME)
-        setTitle("Forget Password")
+        title = "Forget Password"
         setContentView(R.layout.activity_forget_pass_activiy)
         forget_pass_btn_back.setOnClickListener{
             onBackPressed()
@@ -30,25 +30,23 @@ class ForgetPassActiviy : AppCompatActivity() {
                 else -> {
                     val email = forget_pass_email.text.toString().trim{ it <= ' '}
                     FirebaseAuth.getInstance().sendPasswordResetEmail(email)
-                        .addOnCompleteListener(
-                            { task ->
-                                if (task.isSuccessful){
-                                    Toast.makeText(
+                        .addOnCompleteListener { task ->
+                            if (task.isSuccessful){
+                                Toast.makeText(
                                         this@ForgetPassActiviy,
                                         "Email Sent Successfully. Please Check your email to reset you password",
                                         Toast.LENGTH_SHORT
-                                    ).show()
-                                    onBackPressed()
-                                }else{
-                                    logger.log(Level.INFO, task.exception!!.message.toString())
-                                    Toast.makeText(
+                                ).show()
+                                onBackPressed()
+                            }else{
+                                logger.log(Level.INFO, task.exception!!.message.toString())
+                                Toast.makeText(
                                         this@ForgetPassActiviy,
                                         task.exception!!.message.toString(),
                                         Toast.LENGTH_SHORT
-                                    ).show()
-                                }
+                                ).show()
                             }
-                        )
+                        }
                 }
             }
 
