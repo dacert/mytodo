@@ -1,7 +1,7 @@
 package pt.ipleiria.mytodo.models
 
 data class Group(
-        override var key: String = "",
+        override var id: String = "",
         var owner: String = "",
         var name: String = "",
         var members: List<String> = listOf(),

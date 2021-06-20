@@ -5,19 +5,19 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/menu_item_groups"
-            android:icon="@drawable/common_full_open_on_phone"
+            android:icon="@drawable/ic_group"
             android:title="@string/menu_groups" />
     </group>
 
     <item
         android:id="@+id/logout_btn_item"
         android:icon="@drawable/common_full_open_on_phone"
-        android:title="LOGOUT">
+        android:title="@string/menu_logout">
         <Button
             android:id="@+id/logout_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
-            android:text="LOGOUT" />
+            android:text="@string/menu_logout" />
     </item>
 </menu>

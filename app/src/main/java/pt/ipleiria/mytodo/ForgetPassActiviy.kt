@@ -4,8 +4,8 @@ import android.os.Bundle
 import android.text.TextUtils
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_forget_pass_activiy.*
+import pt.ipleiria.mytodo.shared.SharedFireBase
 import java.util.logging.Level
 import java.util.logging.Logger
 
@@ -29,7 +29,7 @@ class ForgetPassActiviy : AppCompatActivity() {
                 }
                 else -> {
                     val email = forget_pass_email.text.toString().trim{ it <= ' '}
-                    FirebaseAuth.getInstance().sendPasswordResetEmail(email)
+                    SharedFireBase.auth.sendPasswordResetEmail(email)
                         .addOnCompleteListener { task ->
                             if (task.isSuccessful){
                                 Toast.makeText(
