@@ -5,9 +5,8 @@ import android.os.Bundle
 import android.text.TextUtils
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
 import kotlinx.android.synthetic.main.activity_login.*
+import pt.ipleiria.mytodo.shared.SharedFireBase
 import java.util.logging.Level
 import java.util.logging.Logger
 
@@ -17,7 +16,7 @@ class LoginActivity : AppCompatActivity() {
         val logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME)
         title = "Login"
         setContentView(R.layout.activity_login)
-        val user = FirebaseAuth.getInstance().currentUser
+        val user =  SharedFireBase.auth.currentUser
         if (user != null) {
             val intent = Intent(this@LoginActivity, MainActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
@@ -53,10 +52,10 @@ class LoginActivity : AppCompatActivity() {
                 else -> {
                     val email = login_email.text.toString().trim{ it <= ' '}
                     val password = login_pass.text.toString().trim{ it <= ' '}
-                    FirebaseAuth.getInstance().signInWithEmailAndPassword(email,password)
+                    SharedFireBase.auth.signInWithEmailAndPassword(email,password)
                         .addOnCompleteListener { task ->
                             if (task.isSuccessful){
-                                val firebaseUser: FirebaseUser = task.result!!.user!!
+                                val firebaseUser = task.result!!.user!!
                                 Toast.makeText(
                                         this@LoginActivity,
                                         "You are logging Successfully.",

@@ -1,10 +1,8 @@
 package pt.ipleiria.mytodo.ui.groups
 
 import android.os.Bundle
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -12,12 +10,20 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.groups_fragment.*
 import pt.ipleiria.mytodo.adapters.GroupsAdapter
 import org.jetbrains.anko.longToast
+import pt.ipleiria.mytodo.R
 import pt.ipleiria.mytodo.databinding.GroupsFragmentBinding
+import pt.ipleiria.mytodo.setActivityTitle
+import pt.ipleiria.mytodo.ui.groups.viewModels.GroupsViewModel
 
-class GroupsFragment : Fragment() {
+class GroupsFragment : Fragment(), EditGroupDialog.EditGroupListener {
 
     private lateinit var viewDataBinding: GroupsFragmentBinding
     private lateinit var adapter: GroupsAdapter
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        setHasOptionsMenu(true)
+        super.onCreate(savedInstanceState)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -57,6 +63,27 @@ class GroupsFragment : Fragment() {
             groups_rv.addItemDecoration(DividerItemDecoration(activity, layoutManager.orientation))
             groups_rv.adapter = adapter
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.main, menu)
+        menu.findItem(R.id.action_remove).isVisible = false
+        menu.findItem(R.id.action_edit).isVisible = false
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        val id = item.itemId
+        if(id == R.id.action_add) {
+            val dialog = EditGroupDialog.newInstance("Add new Group")
+            dialog.listener = this
+            dialog.show(parentFragmentManager, EditGroupDialog.TAG)
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    override fun onSaved(isSuccess: Boolean) {
+        if(isSuccess) viewDataBinding.viewmodel?.fetchList()
     }
 
 }

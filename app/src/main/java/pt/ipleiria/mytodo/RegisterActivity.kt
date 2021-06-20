@@ -5,9 +5,9 @@ import android.os.Bundle
 import android.text.TextUtils
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import kotlinx.android.synthetic.main.activity_register.*
+import pt.ipleiria.mytodo.shared.SharedFireBase
 import java.util.logging.Level
 import java.util.logging.Logger
 
@@ -40,7 +40,7 @@ class RegisterActivity : AppCompatActivity() {
                 else -> {
                     val email = register_email.text.toString().trim{ it <= ' '}
                     val password = register_pass.text.toString().trim{ it <= ' '}
-                    FirebaseAuth.getInstance().createUserWithEmailAndPassword(email,password)
+                    SharedFireBase.auth.createUserWithEmailAndPassword(email,password)
                         .addOnCompleteListener { task ->
                             if (task.isSuccessful){
                                 val firebaseUser: FirebaseUser = task.result!!.user!!

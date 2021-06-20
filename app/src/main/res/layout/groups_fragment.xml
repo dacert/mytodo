@@ -5,7 +5,7 @@
         <import type="android.view.View" />
         <variable
             name="viewmodel"
-            type="pt.ipleiria.mytodo.ui.groups.GroupsViewModel" />
+            type="pt.ipleiria.mytodo.ui.groups.viewModels.GroupsViewModel" />
     </data>
 
     <RelativeLayout

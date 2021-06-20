@@ -7,8 +7,8 @@ import androidx.databinding.DataBindingUtil
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
-import com.google.firebase.auth.FirebaseAuth
 import pt.ipleiria.mytodo.databinding.ActivityMainBinding
+import pt.ipleiria.mytodo.shared.SharedFireBase
 import pt.ipleiria.mytodo.shared.SharedUser
 
 
@@ -54,7 +54,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun logout(){
         SharedUser.email = ""
-        FirebaseAuth.getInstance().signOut()
+        SharedFireBase.auth.signOut()
         startActivity(Intent(this@MainActivity, LoginActivity::class.java))
         finish()
     }
