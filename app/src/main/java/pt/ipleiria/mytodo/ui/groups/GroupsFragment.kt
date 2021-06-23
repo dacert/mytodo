@@ -11,11 +11,14 @@ import kotlinx.android.synthetic.main.groups_fragment.*
 import pt.ipleiria.mytodo.adapters.GroupsAdapter
 import org.jetbrains.anko.longToast
 import pt.ipleiria.mytodo.R
+import pt.ipleiria.mytodo.base.onItemClickListener
 import pt.ipleiria.mytodo.databinding.GroupsFragmentBinding
+import pt.ipleiria.mytodo.models.Base
+import pt.ipleiria.mytodo.models.Group
 import pt.ipleiria.mytodo.setActivityTitle
 import pt.ipleiria.mytodo.ui.groups.viewModels.GroupsViewModel
 
-class GroupsFragment : Fragment(), EditGroupDialog.EditGroupListener {
+class GroupsFragment : Fragment(), EditGroupDialog.EditGroupListener, onItemClickListener {
 
     private lateinit var viewDataBinding: GroupsFragmentBinding
     private lateinit var adapter: GroupsAdapter
@@ -58,6 +61,7 @@ class GroupsFragment : Fragment(), EditGroupDialog.EditGroupListener {
         val viewModel = viewDataBinding.viewmodel
         if (viewModel != null) {
             adapter = GroupsAdapter()
+            adapter.itemClickListener = this
             val layoutManager = LinearLayoutManager(activity)
             groups_rv.layoutManager = layoutManager
             groups_rv.addItemDecoration(DividerItemDecoration(activity, layoutManager.orientation))
@@ -75,7 +79,7 @@ class GroupsFragment : Fragment(), EditGroupDialog.EditGroupListener {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         val id = item.itemId
         if(id == R.id.action_add) {
-            val dialog = EditGroupDialog.newInstance("Add new Group")
+            val dialog = EditGroupDialog.newInstance("Add new Group", null)
             dialog.listener = this
             dialog.show(parentFragmentManager, EditGroupDialog.TAG)
         }
@@ -84,6 +88,12 @@ class GroupsFragment : Fragment(), EditGroupDialog.EditGroupListener {
 
     override fun onSaved(isSuccess: Boolean) {
         if(isSuccess) viewDataBinding.viewmodel?.fetchList()
+    }
+
+    override fun onClick(item: Base) {
+        val dialog = EditGroupDialog.newInstance("Details of ${(item as Group).name}", item)
+        dialog.listener = this
+        dialog.show(parentFragmentManager, EditGroupDialog.TAG)
     }
 
 }
