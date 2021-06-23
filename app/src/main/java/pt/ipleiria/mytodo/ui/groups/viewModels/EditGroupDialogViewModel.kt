@@ -41,6 +41,17 @@ class EditGroupDialogViewModel : BaseViewModel() {
             }
     }
 
+    fun delete(id: String, onComplete: (isSuccess: Boolean, error: String) -> Unit) {
+        dataLoading.value = true
+        val db = SharedFireBase.store
+
+        db.collection("groups").document(id).delete()
+            .addOnCompleteListener { searchTask  ->
+                dataLoading.value = false
+                onComplete(searchTask.isSuccessful, searchTask.exception?.message ?: "")
+            }
+    }
+
     fun dataChanged(name: String, members: String) {
         if (!isNameValid(name)) {
             _form.value = GroupFormState(nameError = R.string.invalid_name)

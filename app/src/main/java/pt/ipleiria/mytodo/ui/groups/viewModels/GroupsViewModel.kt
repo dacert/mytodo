@@ -31,7 +31,7 @@ class GroupsViewModel : BaseViewModel() {
                             .addOnCompleteListener { task2 ->
                                 dataLoading.value = false
                                 if(task2.isSuccessful){
-                                    temp.addAll(task2.result!!.map(toGroupObject))
+                                    temp.addAll(task2.result!!.map(toGroupObject).filter { g -> !temp.any{ t -> t.id == g.id} })
                                 }
                                 empty.value = temp.size < 0
                                 listLive.value = temp

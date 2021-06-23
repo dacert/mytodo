@@ -1,3 +1,5 @@
 package pt.ipleiria.mytodo.models
 
-interface Base { val id: String }
+import java.io.Serializable
+
+interface Base: Serializable { val id: String }
