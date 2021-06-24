@@ -24,7 +24,7 @@ class ForgetPassActiviy : AppCompatActivity() {
                     Toast.makeText(
                         this@ForgetPassActiviy,
                         "Please enter email.",
-                        Toast.LENGTH_SHORT
+                        Toast.LENGTH_LONG
                     ).show()
                 }
                 else -> {
@@ -35,7 +35,7 @@ class ForgetPassActiviy : AppCompatActivity() {
                                 Toast.makeText(
                                         this@ForgetPassActiviy,
                                         "Email Sent Successfully. Please Check your email to reset you password",
-                                        Toast.LENGTH_SHORT
+                                        Toast.LENGTH_LONG
                                 ).show()
                                 onBackPressed()
                             }else{
@@ -43,7 +43,7 @@ class ForgetPassActiviy : AppCompatActivity() {
                                 Toast.makeText(
                                         this@ForgetPassActiviy,
                                         task.exception!!.message.toString(),
-                                        Toast.LENGTH_SHORT
+                                        Toast.LENGTH_LONG
                                 ).show()
                             }
                         }

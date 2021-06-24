@@ -27,14 +27,14 @@ class RegisterActivity : AppCompatActivity() {
                     Toast.makeText(
                         this@RegisterActivity,
                         "Please enter email.",
-                        Toast.LENGTH_SHORT
+                        Toast.LENGTH_LONG
                     ).show()
                 }
                 TextUtils.isEmpty(register_pass.text.toString().trim{ it <= ' '}) -> {
                     Toast.makeText(
                         this@RegisterActivity,
                         "Please enter password.",
-                        Toast.LENGTH_SHORT
+                        Toast.LENGTH_LONG
                     ).show()
                 }
                 else -> {
@@ -47,7 +47,7 @@ class RegisterActivity : AppCompatActivity() {
                                 Toast.makeText(
                                         this@RegisterActivity,
                                         "You are registered Successfully.",
-                                        Toast.LENGTH_SHORT
+                                        Toast.LENGTH_LONG
                                 ).show()
 
                                 val intent = Intent(this@RegisterActivity, MainActivity::class.java)
@@ -61,7 +61,7 @@ class RegisterActivity : AppCompatActivity() {
                                 Toast.makeText(
                                         this@RegisterActivity,
                                         task.exception!!.message.toString(),
-                                        Toast.LENGTH_SHORT
+                                        Toast.LENGTH_LONG
                                 ).show()
                             }
                         }

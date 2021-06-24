@@ -39,14 +39,14 @@ class LoginActivity : AppCompatActivity() {
                     Toast.makeText(
                         this@LoginActivity,
                         "Please enter email.",
-                        Toast.LENGTH_SHORT
+                        Toast.LENGTH_LONG
                     ).show()
                 }
                 TextUtils.isEmpty(login_pass.text.toString().trim{ it <= ' '}) -> {
                     Toast.makeText(
                         this@LoginActivity,
                         "Please enter password.",
-                        Toast.LENGTH_SHORT
+                        Toast.LENGTH_LONG
                     ).show()
                 }
                 else -> {
@@ -59,7 +59,7 @@ class LoginActivity : AppCompatActivity() {
                                 Toast.makeText(
                                         this@LoginActivity,
                                         "You are logging Successfully.",
-                                        Toast.LENGTH_SHORT
+                                        Toast.LENGTH_LONG
                                 ).show()
 
                                 val intent = Intent(this@LoginActivity, MainActivity::class.java)
@@ -73,7 +73,7 @@ class LoginActivity : AppCompatActivity() {
                                 Toast.makeText(
                                         this@LoginActivity,
                                         task.exception!!.message.toString(),
-                                        Toast.LENGTH_SHORT
+                                        Toast.LENGTH_LONG
                                 ).show()
                             }
                         }
