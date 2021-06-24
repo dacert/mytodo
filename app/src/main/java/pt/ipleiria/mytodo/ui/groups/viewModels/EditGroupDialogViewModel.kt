@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import pt.ipleiria.mytodo.R
 import pt.ipleiria.mytodo.base.BaseViewModel
+import pt.ipleiria.mytodo.models.Group
 import pt.ipleiria.mytodo.shared.SharedFireBase
 import pt.ipleiria.mytodo.shared.SharedUser
 
@@ -14,31 +15,50 @@ class EditGroupDialogViewModel : BaseViewModel() {
 
     fun add(name: String, members: String, onComplete: (isSuccess: Boolean, error: String) -> Unit) {
         dataLoading.value = true
-        val db = SharedFireBase.store
+        val data = hashMapOf(
+            "name" to name,
+            "members" to members.split(";").map { m -> m.trim() }.filter { m -> m.isNotEmpty() },
+            "owner" to SharedUser.email
+        )
 
-        db.collection("groups")
-            .whereEqualTo("name",  name).get()
-            .addOnCompleteListener { searchTask  ->
-                if (searchTask.isSuccessful) {
-                    if (searchTask.result!!.isEmpty) {
-                        val data = hashMapOf(
-                            "name" to name,
-                            "members" to members.split(";").map { m -> m.trim() }.filter { m -> m.isNotEmpty() },
-                            "owner" to SharedUser.email
-                        )
-                        db.collection("groups").add(data).addOnCompleteListener { addTask  ->
-                            if(addTask.isSuccessful){
-                                dataLoading.value = false
-                            }
-                            onComplete(addTask.isSuccessful, addTask.exception?.message ?: "")
-                        }
-                    } else {
-                        onComplete(false, "Name is duplicated")
+        any(name) { isAny: Boolean, error: String ->
+            if (!isAny && error.isEmpty()) {
+                create(data) { isSuccess: Boolean, error: String ->
+                    dataLoading.value = false
+                    onComplete(isSuccess, error)
+                }
+            } else {
+                dataLoading.value = false
+                onComplete(false, if (error.isNotEmpty()) error else "Name is duplicated")
+            }
+        }
+    }
+
+    fun edit(oldValue: Group, newName: String, newMembers: String, onComplete: (isSuccess: Boolean, error: String) -> Unit) {
+        dataLoading.value = true
+        val data = hashMapOf(
+            "name" to newName,
+            "members" to newMembers.split(";").map { m -> m.trim() }.filter { m -> m.isNotEmpty() }
+        )
+
+        if(oldValue.name != newName) {
+            any(newName) { isAny: Boolean, error: String ->
+                if (!isAny && error.isEmpty()) {
+                    update(oldValue.id, data) { isSuccess: Boolean, error: String ->
+                        dataLoading.value = false
+                        onComplete(isSuccess, error)
                     }
                 } else {
-                    onComplete(searchTask.isSuccessful, searchTask.exception?.message ?: "")
+                    dataLoading.value = false
+                    onComplete(false, if (error.isNotEmpty()) error else "Name is duplicated")
                 }
             }
+        } else {
+            update(oldValue.id, data) { isSuccess: Boolean, error: String ->
+                dataLoading.value = false
+                onComplete(isSuccess, error)
+            }
+        }
     }
 
     fun delete(id: String, onComplete: (isSuccess: Boolean, error: String) -> Unit) {
@@ -49,6 +69,32 @@ class EditGroupDialogViewModel : BaseViewModel() {
             .addOnCompleteListener { searchTask  ->
                 dataLoading.value = false
                 onComplete(searchTask.isSuccessful, searchTask.exception?.message ?: "")
+            }
+    }
+
+    //helper update
+    private fun update(id: String, data: HashMap<String, Any>, onComplete: (isSuccess: Boolean, error: String) -> Unit){
+        val db = SharedFireBase.store
+        db.collection("groups").document(id).update(data).addOnCompleteListener { editTask  ->
+            onComplete(editTask.isSuccessful, editTask.exception?.message ?: "")
+        }
+    }
+
+    //helper create
+    private fun create(data: HashMap<String, Any>, onComplete: (isSuccess: Boolean, error: String) -> Unit){
+        val db = SharedFireBase.store
+        db.collection("groups").add(data).addOnCompleteListener { addTask  ->
+            onComplete(addTask.isSuccessful, addTask.exception?.message ?: "")
+        }
+    }
+
+    //helper any
+    private fun any(name: String, onComplete: (isSuccess: Boolean, error: String) -> Unit){
+        val db = SharedFireBase.store
+        db.collection("groups")
+            .whereEqualTo("name",  name).get()
+            .addOnCompleteListener { searchTask  ->
+                onComplete(searchTask.isSuccessful && !searchTask.result!!.isEmpty, searchTask.exception?.message ?: "")
             }
     }
 
