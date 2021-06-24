@@ -67,15 +67,34 @@ class EditGroupDialog : DialogFragment() {
         val deleteButton = view.findViewById<Button>(R.id.delete_group)
         val loadingProgressBar = view.findViewById<ProgressBar>(R.id.group_loading)
 
+        //set title
         titleText.text = arguments?.getString(KEY_TITLE)
         val group = arguments?.getSerializable(KEY_DATA) as Group?
 
+        //fil form
         nameEditText.setText(group?.name ?: "")
         ownerText.text = "Owner: ${group?.owner ?: SharedUser.email}"
         membersEditText.setText(group?.members?.joinToString(";") ?: "")
 
-        deleteButton.visibility = if(group != null && group?.owner == SharedUser.email) View.VISIBLE else View.GONE
-        saveButton.visibility = if(group != null) View.GONE else View.VISIBLE
+        val isNew = group == null
+        val isOwner = group != null && group?.owner == SharedUser.email
+
+        deleteButton.visibility = if(isOwner) View.VISIBLE else View.GONE
+        saveButton.visibility = if(isNew || isOwner) View.VISIBLE else View.GONE
+        saveButton.isEnabled = !isNew
+        nameEditText.isEnabled = isNew || isOwner
+        membersEditText.isEnabled = isNew || isOwner
+
+        viewModel.dataLoading.observe(this, Observer { isLoading ->
+            if (isLoading == null) {
+                return@Observer
+            }
+            loadingProgressBar.visibility = if(isLoading) View.VISIBLE else View.GONE
+        })
+
+        viewModel.toastMessage.observe(this, Observer {
+            if(it.isNotEmpty()) Toast.makeText(requireContext(), it, Toast.LENGTH_LONG).show()
+        })
 
         viewModel.formState.observe(this,
             Observer { state ->
@@ -115,35 +134,40 @@ class EditGroupDialog : DialogFragment() {
         }
 
         deleteButton.setOnClickListener {
-            showDeleteConfirmation(group!!.id){ isSuccess, error ->
+            showDeleteConfirmation(group!!.id){ isSuccess ->
                 listener.onSaved(isSuccess)
                 if(isSuccess) {
                     dismiss()
-                } else {
-                    val appContext = context?.applicationContext ?: return@showDeleteConfirmation
-                    Toast.makeText(appContext, error, Toast.LENGTH_LONG).show()
                 }
             }
         }
 
+
+        val onComplete = onComplete@ { isSuccess: Boolean ->
+            listener.onSaved(isSuccess)
+            if(isSuccess) {
+                dismiss()
+            }
+            return@onComplete
+        }
+
         saveButton.setOnClickListener {
-            loadingProgressBar.visibility = View.VISIBLE
-            viewModel.add(
-                nameEditText.text.toString().trim(),
-                membersEditText.text.toString().trim()
-            ) { isSuccess, error ->
-                listener.onSaved(isSuccess)
-                if(isSuccess) {
-                    dismiss()
-                } else {
-                    val appContext = context?.applicationContext ?: return@add
-                    Toast.makeText(appContext, error, Toast.LENGTH_LONG).show()
-                }
+            if(isNew){
+                viewModel.add(
+                    nameEditText.text.toString().trim(),
+                    membersEditText.text.toString().trim(),
+                    onComplete)
+            } else {
+                viewModel.edit(group!!,
+                    nameEditText.text.toString().trim(),
+                    membersEditText.text.toString().trim(),
+                    onComplete
+                )
             }
         }
     }
 
-    private fun showDeleteConfirmation(id: String, onDelete: (isSuccess: Boolean, error: String) -> Unit) {
+    private fun showDeleteConfirmation(id: String, onDelete: (isSuccess: Boolean) -> Unit) {
         val builder = AlertDialog.Builder(requireContext())
         with(builder){
             setTitle(R.string.confirm_delete_title)
