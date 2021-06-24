@@ -13,7 +13,7 @@ class EditGroupDialogViewModel : BaseViewModel() {
     private val _form = MutableLiveData<GroupFormState>()
     val formState: LiveData<GroupFormState> = _form
 
-    fun add(name: String, members: String, onComplete: (isSuccess: Boolean, error: String) -> Unit) {
+    fun add(name: String, members: String, onComplete: (isSuccess: Boolean) -> Unit) {
         dataLoading.value = true
         val data = hashMapOf(
             "name" to name,
@@ -25,16 +25,18 @@ class EditGroupDialogViewModel : BaseViewModel() {
             if (!isAny && error.isEmpty()) {
                 create(data) { isSuccess: Boolean, error: String ->
                     dataLoading.value = false
-                    onComplete(isSuccess, error)
+                    toastMessage.value = if (!isSuccess) error else "Success"
+                    onComplete(isSuccess)
                 }
             } else {
                 dataLoading.value = false
-                onComplete(false, if (error.isNotEmpty()) error else "Name is duplicated")
+                toastMessage.value = if (error.isNotEmpty()) error else "Name is duplicated"
+                onComplete(false)
             }
         }
     }
 
-    fun edit(oldValue: Group, newName: String, newMembers: String, onComplete: (isSuccess: Boolean, error: String) -> Unit) {
+    fun edit(oldValue: Group, newName: String, newMembers: String, onComplete: (isSuccess: Boolean) -> Unit) {
         dataLoading.value = true
         val data = hashMapOf(
             "name" to newName,
@@ -46,29 +48,33 @@ class EditGroupDialogViewModel : BaseViewModel() {
                 if (!isAny && error.isEmpty()) {
                     update(oldValue.id, data) { isSuccess: Boolean, error: String ->
                         dataLoading.value = false
-                        onComplete(isSuccess, error)
+                        toastMessage.value = if (!isSuccess) error else "Success"
+                        onComplete(isSuccess)
                     }
                 } else {
                     dataLoading.value = false
-                    onComplete(false, if (error.isNotEmpty()) error else "Name is duplicated")
+                    toastMessage.value = if (error.isNotEmpty()) error else "Name is duplicated"
+                    onComplete(false)
                 }
             }
         } else {
             update(oldValue.id, data) { isSuccess: Boolean, error: String ->
                 dataLoading.value = false
-                onComplete(isSuccess, error)
+                toastMessage.value = error
+                onComplete(isSuccess)
             }
         }
     }
 
-    fun delete(id: String, onComplete: (isSuccess: Boolean, error: String) -> Unit) {
+    fun delete(id: String, onComplete: (isSuccess: Boolean) -> Unit) {
         dataLoading.value = true
         val db = SharedFireBase.store
 
         db.collection("groups").document(id).delete()
             .addOnCompleteListener { searchTask  ->
                 dataLoading.value = false
-                onComplete(searchTask.isSuccessful, searchTask.exception?.message ?: "")
+                toastMessage.value = searchTask.exception?.message ?: "Success"
+                onComplete(searchTask.isSuccessful)
             }
     }
 

@@ -2,6 +2,7 @@ package pt.ipleiria.mytodo.ui.groups
 
 import android.os.Bundle
 import android.view.*
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -9,13 +10,11 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.groups_fragment.*
 import pt.ipleiria.mytodo.adapters.GroupsAdapter
-import org.jetbrains.anko.longToast
 import pt.ipleiria.mytodo.R
 import pt.ipleiria.mytodo.base.onItemClickListener
 import pt.ipleiria.mytodo.databinding.GroupsFragmentBinding
 import pt.ipleiria.mytodo.models.Base
 import pt.ipleiria.mytodo.models.Group
-import pt.ipleiria.mytodo.setActivityTitle
 import pt.ipleiria.mytodo.ui.groups.viewModels.GroupsViewModel
 
 class GroupsFragment : Fragment(), EditGroupDialog.EditGroupListener, onItemClickListener {
@@ -53,7 +52,7 @@ class GroupsFragment : Fragment(), EditGroupDialog.EditGroupListener, onItemClic
         })
 
         viewDataBinding.viewmodel?.toastMessage?.observe(viewLifecycleOwner, Observer {
-            activity?.longToast(it)
+            Toast.makeText(requireContext(), it, Toast.LENGTH_LONG).show()
         })
     }
 

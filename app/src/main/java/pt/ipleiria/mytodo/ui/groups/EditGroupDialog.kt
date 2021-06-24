@@ -92,6 +92,10 @@ class EditGroupDialog : DialogFragment() {
             loadingProgressBar.visibility = if(isLoading) View.VISIBLE else View.GONE
         })
 
+        viewModel.toastMessage.observe(this, Observer {
+            if(it.isNotEmpty()) Toast.makeText(requireContext(), it, Toast.LENGTH_LONG).show()
+        })
+
         viewModel.formState.observe(this,
             Observer { state ->
                 if (state == null) {
@@ -130,25 +134,19 @@ class EditGroupDialog : DialogFragment() {
         }
 
         deleteButton.setOnClickListener {
-            showDeleteConfirmation(group!!.id){ isSuccess, error ->
+            showDeleteConfirmation(group!!.id){ isSuccess ->
                 listener.onSaved(isSuccess)
                 if(isSuccess) {
                     dismiss()
-                } else {
-                    val appContext = context?.applicationContext ?: return@showDeleteConfirmation
-                    Toast.makeText(appContext, error, Toast.LENGTH_LONG).show()
                 }
             }
         }
 
 
-        val onComplete = onComplete@ { isSuccess: Boolean, error: String ->
+        val onComplete = onComplete@ { isSuccess: Boolean ->
             listener.onSaved(isSuccess)
             if(isSuccess) {
-                Toast.makeText(requireContext(), "Success", Toast.LENGTH_SHORT).show();
                 dismiss()
-            } else {
-                Toast.makeText(requireContext(), error, Toast.LENGTH_SHORT).show();
             }
             return@onComplete
         }
@@ -169,7 +167,7 @@ class EditGroupDialog : DialogFragment() {
         }
     }
 
-    private fun showDeleteConfirmation(id: String, onDelete: (isSuccess: Boolean, error: String) -> Unit) {
+    private fun showDeleteConfirmation(id: String, onDelete: (isSuccess: Boolean) -> Unit) {
         val builder = AlertDialog.Builder(requireContext())
         with(builder){
             setTitle(R.string.confirm_delete_title)
