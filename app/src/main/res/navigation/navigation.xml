@@ -17,5 +17,21 @@
         android:name="pt.ipleiria.mytodo.ui.groups.GroupsFragment"
         android:label="@string/menu_groups"
         tools:layout="@layout/groups_fragment">
+        <action
+            android:id="@+id/action_groups_to_todos"
+            app:destination="@id/todosFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/todosFragment"
+        android:name="pt.ipleiria.mytodo.ui.todos.TodosFragment"
+        android:label="{title}"
+        tools:layout="@layout/todos_fragment">
+        <argument
+            android:name="title"
+            app:argType="string" />
+        <argument
+            android:name="id"
+            app:argType="string" />
     </fragment>
 </navigation>

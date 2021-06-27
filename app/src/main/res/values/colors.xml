@@ -6,4 +6,5 @@
     <color name="sec_color">#56d1b4</color>
     <color name="gray_dark">#7e7e7e</color>
     <color name="gray_light">#b1b1b1</color>
+    <color name="gray_white_light">#E1E1E1</color>
 </resources>

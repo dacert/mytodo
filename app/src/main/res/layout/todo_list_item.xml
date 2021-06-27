@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <import type="android.view.View" />
+        <variable
+            name="data"
+            type="pt.ipleiria.mytodo.models.Todo" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:id="@+id/todo_list_item"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="@dimen/_20dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/todo_list_item_text"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical"
+                android:layout_marginRight="@dimen/_20dp"
+                android:text="@{data.text}"
+                android:textColor="@android:color/black"
+                android:layout_weight="1"
+                android:textSize="@dimen/_20sp"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical"
+                app:srcCompat="@drawable/ic_todo" />
+        </LinearLayout>
+
+    </RelativeLayout>
+</layout>

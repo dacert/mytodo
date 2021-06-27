@@ -3,6 +3,7 @@ package pt.ipleiria.mytodo.ui.groups.viewModels
 import android.util.Patterns
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.google.firebase.firestore.FieldValue
 import pt.ipleiria.mytodo.R
 import pt.ipleiria.mytodo.base.BaseViewModel
 import pt.ipleiria.mytodo.models.Group
@@ -17,8 +18,9 @@ class EditGroupDialogViewModel : BaseViewModel() {
         dataLoading.value = true
         val data = hashMapOf(
             "name" to name,
-            "members" to members.split(";").map { m -> m.trim() }.filter { m -> m.isNotEmpty() },
-            "owner" to SharedUser.email
+            "members" to members.split(";").map { m -> m.trim() }.plus(SharedUser.email).filter { m -> m.isNotEmpty() },
+            "owner" to SharedUser.email,
+            "timestamp" to FieldValue.serverTimestamp()
         )
 
         any(name) { isAny: Boolean, error: String ->
@@ -40,7 +42,8 @@ class EditGroupDialogViewModel : BaseViewModel() {
         dataLoading.value = true
         val data = hashMapOf(
             "name" to newName,
-            "members" to newMembers.split(";").map { m -> m.trim() }.filter { m -> m.isNotEmpty() }
+            "members" to newMembers.split(";").map { m -> m.trim() }.plus(SharedUser.email).filter { m -> m.isNotEmpty() },
+            "timestamp" to FieldValue.serverTimestamp()
         )
 
         if(oldValue.name != newName) {
