@@ -10,6 +10,7 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.groups_fragment.*
+import pt.ipleiria.mytodo.R
 import pt.ipleiria.mytodo.adapters.TodosAdapter
 import pt.ipleiria.mytodo.databinding.TodosFragmentBinding
 import pt.ipleiria.mytodo.ui.todos.viewModels.TodosViewModel
@@ -19,6 +20,11 @@ class TodosFragment : Fragment() {
     private lateinit var viewDataBinding: TodosFragmentBinding
     private lateinit var adapter: TodosAdapter
     private val args : TodosFragmentArgs by navArgs()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        setHasOptionsMenu(true)
+        super.onCreate(savedInstanceState)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -58,5 +64,20 @@ class TodosFragment : Fragment() {
             todos_rv.addItemDecoration(DividerItemDecoration(activity, layoutManager.orientation))
             todos_rv.adapter = adapter
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.main, menu)
+        menu.findItem(R.id.action_add).isVisible = false
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        val id = item.itemId
+        if(id == R.id.action_add_todo) {
+            val dialog = EditTodoDialog.newInstance("Add new to-do", args?.id)
+            dialog.show(parentFragmentManager, EditTodoDialog.TAG)
+        }
+        return super.onOptionsItemSelected(item)
     }
 }

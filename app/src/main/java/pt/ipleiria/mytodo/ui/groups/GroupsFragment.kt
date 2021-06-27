@@ -70,8 +70,7 @@ class GroupsFragment : Fragment(), EditGroupDialog.EditGroupListener, OnItemClic
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.main, menu)
-        menu.findItem(R.id.action_remove).isVisible = false
-        menu.findItem(R.id.action_edit).isVisible = false
+        menu.findItem(R.id.action_add_todo).isVisible = false
         super.onCreateOptionsMenu(menu, inflater)
     }
 
