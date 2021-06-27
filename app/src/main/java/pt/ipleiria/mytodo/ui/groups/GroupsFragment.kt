@@ -11,13 +11,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.groups_fragment.*
 import pt.ipleiria.mytodo.adapters.GroupsAdapter
 import pt.ipleiria.mytodo.R
-import pt.ipleiria.mytodo.base.onItemClickListener
+import pt.ipleiria.mytodo.base.OnItemClickListener
 import pt.ipleiria.mytodo.databinding.GroupsFragmentBinding
 import pt.ipleiria.mytodo.models.Base
 import pt.ipleiria.mytodo.models.Group
 import pt.ipleiria.mytodo.ui.groups.viewModels.GroupsViewModel
 
-class GroupsFragment : Fragment(), EditGroupDialog.EditGroupListener, onItemClickListener {
+class GroupsFragment : Fragment(), EditGroupDialog.EditGroupListener, OnItemClickListener {
 
     private lateinit var viewDataBinding: GroupsFragmentBinding
     private lateinit var adapter: GroupsAdapter
@@ -62,9 +62,9 @@ class GroupsFragment : Fragment(), EditGroupDialog.EditGroupListener, onItemClic
             adapter = GroupsAdapter()
             adapter.itemClickListener = this
             val layoutManager = LinearLayoutManager(activity)
-            groups_rv.layoutManager = layoutManager
-            groups_rv.addItemDecoration(DividerItemDecoration(activity, layoutManager.orientation))
-            groups_rv.adapter = adapter
+            todos_rv.layoutManager = layoutManager
+            todos_rv.addItemDecoration(DividerItemDecoration(activity, layoutManager.orientation))
+            todos_rv.adapter = adapter
         }
     }
 

@@ -10,8 +10,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="@dimen/_20dp">
+        android:layout_height="wrap_content">
 
         <LinearLayout
             android:id="@+id/group_list_item"
@@ -22,12 +21,25 @@
             <TextView
                 android:id="@+id/group_list_item_name"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_gravity="center_vertical"
+                android:paddingLeft="@dimen/_18sp"
+                android:layout_weight="1"
                 android:gravity="center_vertical"
                 android:text="@{data.name}"
                 android:textColor="@android:color/black"
-                android:textSize="@dimen/_20sp"/>
+                android:textSize="@dimen/_20sp" />
+
+            <ImageButton
+                android:id="@+id/group_list_item_edit"
+                style="@style/Widget.MaterialComponents.Button.TextButton.Dialog.Flush"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
+                android:padding="@dimen/_18sp"
+                android:src="@drawable/ic_edit" />
         </LinearLayout>
 
     </RelativeLayout>
