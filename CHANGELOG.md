@@ -1,4 +1,9 @@
 # MyToDo changelog
+# 28/06/2021 (Version 1.3)
+### New
+- Add create new to-do capability
+- Change navigation bar icons to white
+
 # 27/06/2021 (Version 1.2)
 ### New
 - Add list to-dos capability

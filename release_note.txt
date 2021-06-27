@@ -1,7 +1,4 @@
 New
-- Add list to-dos capability
+- Add create new to-do capability
 Changes
-- List the groups more efficiently, using indexes and normalizing the noSQL model
-- Now edit the groups by clicking in an edit icon next to the group name
-Fixes
-- Show the message when the groups list is empty
+- Change navigation bar icons to white
