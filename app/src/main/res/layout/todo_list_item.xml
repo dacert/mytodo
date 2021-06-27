@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
@@ -9,28 +10,32 @@
             type="pt.ipleiria.mytodo.models.Todo" />
     </data>
 
-    <RelativeLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/todo_list_item"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <LinearLayout
-            android:id="@+id/todo_list_item"
+            android:id="@+id/upLayout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:padding="@dimen/_20dp"
-            android:orientation="horizontal">
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
             <TextView
                 android:id="@+id/todo_list_item_text"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_gravity="center_vertical"
+                android:layout_marginEnd="@dimen/_20dp"
+                android:layout_weight="1"
                 android:gravity="center_vertical"
-                android:layout_marginRight="@dimen/_20dp"
                 android:text="@{data.text}"
                 android:textColor="@android:color/black"
-                android:layout_weight="1"
-                android:textSize="@dimen/_20sp"/>
+                android:textSize="@dimen/_18sp" />
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -40,5 +45,41 @@
                 app:srcCompat="@drawable/ic_todo" />
         </LinearLayout>
 
-    </RelativeLayout>
+        <LinearLayout
+            android:id="@+id/downLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="5dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/upLayout">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="@dimen/_20dp"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:text="@{data.by}"
+                android:textColor="@android:color/darker_gray"
+                android:textSize="12sp"
+                app:drawableLeftCompat="@drawable/ic_user" />
+
+            <TextView
+                android:id="@+id/todo_list_item_timestamp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="@dimen/_20dp"
+                android:gravity="center_vertical"
+                android:layout_weight="1"
+                android:textColor="@android:color/darker_gray"
+                android:textSize="12sp"
+                app:drawableLeftCompat="@drawable/ic_clock" />
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
