@@ -5,7 +5,7 @@ This was created for educational purposes.
 
 ### Features
 * Authentication and registration system
-##### Coming soon
 * Management Groups
+##### Coming soon
 * Management ToDos
 * Monitoring ToDos
