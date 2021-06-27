@@ -11,7 +11,7 @@
 
     <item
         android:id="@+id/logout_btn_item"
-        android:icon="@drawable/common_full_open_on_phone"
+        android:icon="@drawable/ic_logout"
         android:title="@string/menu_logout">
         <Button
             android:id="@+id/logout_btn"
