@@ -19,6 +19,10 @@
     <string name="invalid_name">Only letters and numbers</string>
     <string name="invalid_members">Must be emails separated by semicolons</string>
 
+    <string name="prompt_text">Text</string>
+
+    <string name="invalid_text">Can\'t be empty</string>
+
     <string name="confirm_delete_title">Delete group!!</string>
     <string name="confirm_delete_msg">Are you sure to delete the group?</string>
     <string name="menu_todos">ToDos</string>

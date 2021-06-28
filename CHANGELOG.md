@@ -1,4 +1,13 @@
 # MyToDo changelog
+
+# 28/06/2021 (Version 1.3)
+### New
+- Add create new to-do capability
+### Changes
+- Change navigation bar icons to white
+- Change logout icon
+- Change to-do list item adding "by" and "timestamp"
+
 # 27/06/2021 (Version 1.2)
 ### New
 - Add list to-dos capability

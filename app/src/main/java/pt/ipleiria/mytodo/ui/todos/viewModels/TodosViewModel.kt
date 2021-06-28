@@ -17,11 +17,11 @@ class TodosViewModel : BaseViewModel() {
         o.toObject(Todo::class.java)?.apply { id = o.id }!!
     }
 
-    fun fetchList(group: String) {
+    fun fetchList(groupId: String) {
         dataLoading.value = true
         val db = SharedFireBase.store
 
-        val query = db.collection("groups/${group}/todos")
+        val query = db.collection("groups/${groupId}/todos")
             .orderBy("timestamp", Query.Direction.DESCENDING)
 
         registration = query.addSnapshotListener { snapshots, e ->
