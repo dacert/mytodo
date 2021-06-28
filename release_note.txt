@@ -1,6 +1,3 @@
 New
-- Add create new to-do capability
-Changes
-- Change navigation bar icons to white
-- Change logout icon
-- Change to-do list item adding "by" and "timestamp"
+Add edit to-do capability
+- Can only be edited by creators of the to-do

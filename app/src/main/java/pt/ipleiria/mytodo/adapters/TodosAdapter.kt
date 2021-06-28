@@ -22,7 +22,7 @@ class TodosAdapter() : RecyclerView.Adapter<TodoViewHolder>() {
 
     override fun onBindViewHolder(holder: TodoViewHolder, position: Int) {
         holder.setup(list[position])
-        //holder.itemView.setOnClickListener { v -> itemClickListener.onClick(list[position])}
+        holder.itemView.setOnClickListener { v -> itemClickListener.onClick(list[position])}
     }
 
     fun updateList(list: List<Todo>) {
