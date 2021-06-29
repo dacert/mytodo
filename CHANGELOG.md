@@ -1,5 +1,12 @@
 # MyToDo changelog
 
+# 30/06/2021 (Version 1.5)
+### New
+- Add delete to-do capability
+- Add unit tests
+### Changes
+- Put data access logic in repositories
+
 # 29/06/2021 (Version 1.4)
 ### New
 Add edit to-do capability
