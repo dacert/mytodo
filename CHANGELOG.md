@@ -1,6 +1,6 @@
 # MyToDo changelog
 
-# 29/06/2021 (Version 1.3)
+# 29/06/2021 (Version 1.4)
 ### New
 Add edit to-do capability
 - Can only be edited by creators of the to-do
