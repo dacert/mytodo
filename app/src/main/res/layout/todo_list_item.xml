@@ -7,7 +7,7 @@
         <import type="android.view.View" />
         <variable
             name="data"
-            type="pt.ipleiria.mytodo.models.Todo" />
+            type="pt.ipleiria.mytodo.dataLayer.models.Todo" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

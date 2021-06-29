@@ -1,4 +1,4 @@
-package pt.ipleiria.mytodo.models
+package pt.ipleiria.mytodo.dataLayer.models
 
 import java.util.*
 

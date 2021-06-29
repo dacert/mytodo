@@ -5,9 +5,10 @@ import androidx.lifecycle.MutableLiveData
 import com.google.firebase.firestore.FieldValue
 import pt.ipleiria.mytodo.R
 import pt.ipleiria.mytodo.base.BaseViewModel
-import pt.ipleiria.mytodo.models.Group
-import pt.ipleiria.mytodo.shared.SharedFireBase
 import pt.ipleiria.mytodo.shared.SharedUser
+import pt.ipleiria.mytodo.dataLayer.repositories.TodosRepository.create
+import pt.ipleiria.mytodo.dataLayer.repositories.TodosRepository.delete
+import pt.ipleiria.mytodo.dataLayer.repositories.TodosRepository.update
 
 class EditTodoDialogViewModel : BaseViewModel() {
     private val _form = MutableLiveData<TodoFormState>()
@@ -42,19 +43,12 @@ class EditTodoDialogViewModel : BaseViewModel() {
         }
     }
 
-    //helper update
-    private fun update(groupId: String, id: String, data: HashMap<String, Any>, onComplete: (isSuccess: Boolean, error: String) -> Unit){
-        val db = SharedFireBase.store
-        db.collection("groups/${groupId}/todos").document(id).update(data).addOnCompleteListener { editTask  ->
-            onComplete(editTask.isSuccessful, editTask.exception?.message ?: "")
-        }
-    }
-
-    //helper create
-    private fun create(groupId: String, data: HashMap<String, Any>, onComplete: (isSuccess: Boolean, error: String) -> Unit){
-        val db = SharedFireBase.store
-        db.collection("groups/${groupId}/todos").add(data).addOnCompleteListener { addTask  ->
-            onComplete(addTask.isSuccessful, addTask.exception?.message ?: "")
+    fun remove(groupId: String, id: String, onComplete: (isSuccess: Boolean) -> Unit) {
+        dataLoading.value = true
+        delete(groupId, id) { isSuccess: Boolean, error: String ->
+            dataLoading.value = false
+            toastMessage.value = if (!isSuccess) error else "Success"
+            onComplete(isSuccess)
         }
     }
 
