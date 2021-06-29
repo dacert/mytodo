@@ -12,10 +12,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.groups_fragment.*
 import pt.ipleiria.mytodo.R
 import pt.ipleiria.mytodo.adapters.TodosAdapter
+import pt.ipleiria.mytodo.base.OnItemClickListener
 import pt.ipleiria.mytodo.databinding.TodosFragmentBinding
+import pt.ipleiria.mytodo.models.Base
+import pt.ipleiria.mytodo.ui.groups.EditGroupDialog
 import pt.ipleiria.mytodo.ui.todos.viewModels.TodosViewModel
 
-class TodosFragment : Fragment() {
+class TodosFragment : Fragment(), OnItemClickListener {
 
     private lateinit var viewDataBinding: TodosFragmentBinding
     private lateinit var adapter: TodosAdapter
@@ -59,6 +62,7 @@ class TodosFragment : Fragment() {
         val viewModel = viewDataBinding.viewmodel
         if (viewModel != null) {
             adapter = TodosAdapter()
+            adapter.itemClickListener = this
             val layoutManager = LinearLayoutManager(activity)
             todos_rv.layoutManager = layoutManager
             todos_rv.addItemDecoration(DividerItemDecoration(activity, layoutManager.orientation))
@@ -75,9 +79,14 @@ class TodosFragment : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         val id = item.itemId
         if(id == R.id.action_add_todo) {
-            val dialog = EditTodoDialog.newInstance("Add new to-do", args?.id)
+            val dialog = EditTodoDialog.newInstance("Add new to-do", args?.id, null)
             dialog.show(parentFragmentManager, EditTodoDialog.TAG)
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun onClick(item: Base) {
+        val dialog = EditTodoDialog.newInstance("Details", args?.id, item)
+        dialog.show(parentFragmentManager, EditTodoDialog.TAG)
     }
 }

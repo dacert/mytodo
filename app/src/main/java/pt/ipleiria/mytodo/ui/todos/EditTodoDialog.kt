@@ -8,15 +8,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.*
-import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import pt.ipleiria.mytodo.R
-import pt.ipleiria.mytodo.models.Group
+import pt.ipleiria.mytodo.models.Base
+import pt.ipleiria.mytodo.models.Todo
 import pt.ipleiria.mytodo.shared.SharedUser
-import pt.ipleiria.mytodo.ui.groups.EditGroupDialog
-import pt.ipleiria.mytodo.ui.groups.viewModels.EditGroupDialogViewModel
 import pt.ipleiria.mytodo.ui.todos.viewModels.EditTodoDialogViewModel
 
 
@@ -26,11 +24,13 @@ class EditTodoDialog : DialogFragment() {
         const val TAG = "EditTodoDialog"
         private const val KEY_TITLE = "KEY_TITLE"
         private const val KEY_GROUPID = "KEY_GROUPID"
+        private const val KEY_DATA = "KEY_DATA"
 
-        fun newInstance(title: String, groupId: String): EditTodoDialog {
+        fun newInstance(title: String, groupId: String, data: Base?): EditTodoDialog {
             val args = Bundle()
             args.putString(KEY_TITLE, title)
             args.putString(KEY_GROUPID, groupId)
+            args.putSerializable(KEY_DATA, data)
             val fragment = EditTodoDialog()
             fragment.arguments = args
             return fragment
@@ -71,6 +71,15 @@ class EditTodoDialog : DialogFragment() {
         //set title
         titleText.text = arguments?.getString(KEY_TITLE)
         groupId = arguments?.getString(KEY_GROUPID).toString()
+        val todo = arguments?.getSerializable(KEY_DATA) as Todo?
+
+        textEditText.setText(todo?.text ?: "")
+        val isNew = todo == null
+        val isOwner = todo != null && todo?.by == SharedUser.email
+
+        saveButton.visibility = if(isNew || isOwner) View.VISIBLE else View.GONE
+        saveButton.isEnabled = !isNew
+        textEditText.isEnabled = isNew || isOwner
 
         viewModel.dataLoading.observe(this, Observer { isLoading ->
             if (isLoading == null) {
@@ -121,10 +130,17 @@ class EditTodoDialog : DialogFragment() {
         }
 
         saveButton.setOnClickListener {
-            viewModel.add(
-                groupId,
-                textEditText.text.toString().trim(),
-                onComplete)
+            if(isNew){
+                viewModel.add(
+                    groupId,
+                    textEditText.text.toString().trim(),
+                    onComplete)
+            } else {
+                viewModel.edit(
+                    groupId, todo!!.id,
+                    textEditText.text.toString().trim(),
+                    onComplete)
+            }
         }
     }
 }
