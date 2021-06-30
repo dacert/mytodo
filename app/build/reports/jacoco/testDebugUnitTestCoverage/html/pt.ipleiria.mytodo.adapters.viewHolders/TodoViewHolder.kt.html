@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TodoViewHolder.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">app</a> &gt; <a href="index.source.html" class="el_package">pt.ipleiria.mytodo.adapters.viewHolders</a> &gt; <span class="el_source">TodoViewHolder.kt</span></div><h1>TodoViewHolder.kt</h1><pre class="source lang-java linenums">package pt.ipleiria.mytodo.adapters.viewHolders
+
+import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.databinding.ViewDataBinding
+import androidx.recyclerview.widget.RecyclerView
+import pt.ipleiria.mytodo.BR
+import pt.ipleiria.mytodo.R
+import pt.ipleiria.mytodo.adapters.viewHolders.helpers.TodoViewHolderHelper.isByCurrentUser
+import pt.ipleiria.mytodo.dataLayer.models.Todo
+import java.text.SimpleDateFormat
+
+<span class="nc" id="L13">class TodoViewHolder constructor(private val dataBinding: ViewDataBinding)</span>
+<span class="nc" id="L14">    : RecyclerView.ViewHolder(dataBinding.root) {</span>
+
+    fun setup(data: Todo) {
+<span class="nc" id="L17">        dataBinding.setVariable(BR.data, data)</span>
+<span class="nc" id="L18">        dataBinding.executePendingBindings()</span>
+
+<span class="nc bnc" id="L20" title="All 2 branches missed.">        if(data.timestamp != null){</span>
+<span class="nc" id="L21">            val simpleDateFormat = SimpleDateFormat(&quot;dd.LLL.yyyy HH:mm:ss&quot;)</span>
+<span class="nc" id="L22">            val dateTime = simpleDateFormat.format(data.timestamp!!).toString()</span>
+<span class="nc" id="L23">            itemView.findViewById&lt;TextView&gt;(R.id.todo_list_item_timestamp).text = dateTime</span>
+        }
+
+<span class="nc bnc" id="L26" title="All 2 branches missed.">        val color = if(!isByCurrentUser(data)) R.color.gray_white_light else R.color.white</span>
+<span class="nc" id="L27">        itemView.findViewById&lt;ConstraintLayout&gt;(R.id.todo_list_item).setBackgroundResource(color)</span>
+<span class="nc" id="L28">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

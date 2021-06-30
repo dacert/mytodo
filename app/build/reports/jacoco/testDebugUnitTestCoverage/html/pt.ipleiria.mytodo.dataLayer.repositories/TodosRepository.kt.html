@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TodosRepository.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">app</a> &gt; <a href="index.source.html" class="el_package">pt.ipleiria.mytodo.dataLayer.repositories</a> &gt; <span class="el_source">TodosRepository.kt</span></div><h1>TodosRepository.kt</h1><pre class="source lang-java linenums">package pt.ipleiria.mytodo.dataLayer.repositories
+
+import pt.ipleiria.mytodo.shared.SharedFireBase
+
+<span class="fc" id="L5">object TodosRepository {</span>
+
+    //helper update
+    fun update(groupId: String, id: String, data: HashMap&lt;String, Any&gt;, onComplete: (isSuccess: Boolean, error: String) -&gt; Unit){
+<span class="nc" id="L9">        val db = SharedFireBase.store</span>
+<span class="nc" id="L10">        db.collection(&quot;groups/${groupId}/todos&quot;).document(id).update(data).addOnCompleteListener { editTask  -&gt;</span>
+<span class="nc bnc" id="L11" title="All 4 branches missed.">            onComplete(editTask.isSuccessful, editTask.exception?.message ?: &quot;&quot;)</span>
+<span class="nc" id="L12">        }</span>
+<span class="nc" id="L13">    }</span>
+
+    //helper create
+    fun create(groupId: String, data: HashMap&lt;String, Any&gt;, onComplete: (isSuccess: Boolean, error: String) -&gt; Unit){
+<span class="nc" id="L17">        val db = SharedFireBase.store</span>
+<span class="nc" id="L18">        db.collection(&quot;groups/${groupId}/todos&quot;).add(data).addOnCompleteListener { addTask  -&gt;</span>
+<span class="nc bnc" id="L19" title="All 4 branches missed.">            onComplete(addTask.isSuccessful, addTask.exception?.message ?: &quot;&quot;)</span>
+<span class="nc" id="L20">        }</span>
+<span class="nc" id="L21">    }</span>
+
+    fun delete(groupId: String, id: String, onComplete: (isSuccess: Boolean, error: String) -&gt; Unit) {
+<span class="nc" id="L24">        val db = SharedFireBase.store</span>
+<span class="nc" id="L25">        db.collection(&quot;groups/${groupId}/todos&quot;).document(id).delete()</span>
+<span class="nc" id="L26">            .addOnCompleteListener { deleteTask  -&gt;</span>
+<span class="nc bnc" id="L27" title="All 4 branches missed.">                onComplete(deleteTask.isSuccessful, deleteTask.exception?.message ?: &quot;&quot;)</span>
+<span class="nc" id="L28">            }</span>
+<span class="nc" id="L29">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>
