@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/homeFragment"
         android:name="pt.ipleiria.mytodo.HomeFragment"
-        android:label="fragment_home"
+        android:label="@string/home"
         tools:layout="@layout/fragment_home" >
     </fragment>
 
