@@ -9,3 +9,12 @@ This was created for educational purposes.
 * Management ToDos
 ##### Coming soon
 * Monitoring ToDos
+
+
+### Develop
+
+#### Coverage
+gradlew clean testDebugUnitTestCoverage
+
+#### SonarQube
+gradlew cleam sonarqube

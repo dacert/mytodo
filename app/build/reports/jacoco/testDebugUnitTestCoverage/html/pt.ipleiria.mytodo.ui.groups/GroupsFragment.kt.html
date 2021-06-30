@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>GroupsFragment.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">app</a> &gt; <a href="index.source.html" class="el_package">pt.ipleiria.mytodo.ui.groups</a> &gt; <span class="el_source">GroupsFragment.kt</span></div><h1>GroupsFragment.kt</h1><pre class="source lang-java linenums">package pt.ipleiria.mytodo.ui.groups
+
+import android.os.Bundle
+import android.view.*
+import android.widget.Toast
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
+import kotlinx.android.synthetic.main.groups_fragment.*
+import pt.ipleiria.mytodo.adapters.GroupsAdapter
+import pt.ipleiria.mytodo.R
+import pt.ipleiria.mytodo.base.OnItemClickListener
+import pt.ipleiria.mytodo.databinding.GroupsFragmentBinding
+import pt.ipleiria.mytodo.dataLayer.models.Base
+import pt.ipleiria.mytodo.dataLayer.models.Group
+import pt.ipleiria.mytodo.ui.groups.viewModels.GroupsViewModel
+
+<span class="nc" id="L20">class GroupsFragment : Fragment(), EditGroupDialog.EditGroupListener, OnItemClickListener {</span>
+
+    private lateinit var viewDataBinding: GroupsFragmentBinding
+    private lateinit var adapter: GroupsAdapter
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+<span class="nc" id="L26">        setHasOptionsMenu(true)</span>
+<span class="nc" id="L27">        super.onCreate(savedInstanceState)</span>
+<span class="nc" id="L28">    }</span>
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+<span class="nc" id="L34">        viewDataBinding = GroupsFragmentBinding.inflate(inflater, container, false).apply {</span>
+<span class="nc" id="L35">            viewmodel = ViewModelProvider(this@GroupsFragment).get(GroupsViewModel::class.java)</span>
+<span class="nc" id="L36">            lifecycleOwner = viewLifecycleOwner</span>
+<span class="nc" id="L37">        }</span>
+<span class="nc" id="L38">        return viewDataBinding.root</span>
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+<span class="nc" id="L42">        super.onViewCreated(view, savedInstanceState)</span>
+<span class="nc bnc" id="L43" title="All 2 branches missed.">        viewDataBinding.viewmodel?.fetchList()</span>
+
+<span class="nc" id="L45">        setupAdapter()</span>
+<span class="nc" id="L46">        setupObservers()</span>
+<span class="nc" id="L47">    }</span>
+
+    private fun setupObservers() {
+<span class="nc bnc" id="L50" title="All 4 branches missed.">        viewDataBinding.viewmodel?.listLive?.observe(viewLifecycleOwner, Observer {</span>
+<span class="nc" id="L51">            adapter.updateList(it)</span>
+<span class="nc" id="L52">        })</span>
+
+<span class="nc bnc" id="L54" title="All 4 branches missed.">        viewDataBinding.viewmodel?.toastMessage?.observe(viewLifecycleOwner, Observer {</span>
+<span class="nc" id="L55">            Toast.makeText(requireContext(), it, Toast.LENGTH_LONG).show()</span>
+<span class="nc" id="L56">        })</span>
+<span class="nc" id="L57">    }</span>
+
+    private fun setupAdapter() {
+<span class="nc" id="L60">        val viewModel = viewDataBinding.viewmodel</span>
+<span class="nc bnc" id="L61" title="All 2 branches missed.">        if (viewModel != null) {</span>
+<span class="nc" id="L62">            adapter = GroupsAdapter()</span>
+<span class="nc" id="L63">            adapter.itemClickListener = this</span>
+<span class="nc" id="L64">            val layoutManager = LinearLayoutManager(activity)</span>
+<span class="nc" id="L65">            todos_rv.layoutManager = layoutManager</span>
+<span class="nc" id="L66">            todos_rv.addItemDecoration(DividerItemDecoration(activity, layoutManager.orientation))</span>
+<span class="nc" id="L67">            todos_rv.adapter = adapter</span>
+        }
+<span class="nc" id="L69">    }</span>
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+<span class="nc" id="L72">        inflater.inflate(R.menu.main, menu)</span>
+<span class="nc" id="L73">        menu.findItem(R.id.action_add_todo).isVisible = false</span>
+<span class="nc" id="L74">        super.onCreateOptionsMenu(menu, inflater)</span>
+<span class="nc" id="L75">    }</span>
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+<span class="nc" id="L78">        val id = item.itemId</span>
+<span class="nc bnc" id="L79" title="All 2 branches missed.">        if(id == R.id.action_add) {</span>
+<span class="nc" id="L80">            val dialog = EditGroupDialog.newInstance(&quot;Add new Group&quot;, null)</span>
+<span class="nc" id="L81">            dialog.listener = this</span>
+<span class="nc" id="L82">            dialog.show(parentFragmentManager, EditGroupDialog.TAG)</span>
+        }
+<span class="nc" id="L84">        return super.onOptionsItemSelected(item)</span>
+    }
+
+    override fun onSaved(isSuccess: Boolean) {
+<span class="nc bnc" id="L88" title="All 4 branches missed.">        if(isSuccess) viewDataBinding.viewmodel?.fetchList()</span>
+<span class="nc" id="L89">    }</span>
+
+    override fun onClick(item: Base) {
+<span class="nc" id="L92">        val dialog = EditGroupDialog.newInstance(&quot;Details of ${(item as Group).name}&quot;, item)</span>
+<span class="nc" id="L93">        dialog.listener = this</span>
+<span class="nc" id="L94">        dialog.show(parentFragmentManager, EditGroupDialog.TAG)</span>
+<span class="nc" id="L95">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>
