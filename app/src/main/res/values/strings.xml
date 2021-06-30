@@ -24,7 +24,7 @@
 
     <string name="invalid_text">Can\'t be empty</string>
 
-    <string name="confirm_delete_title">Delete group!!</string>
-    <string name="confirm_delete_msg">Are you sure to delete the group?</string>
+    <string name="confirm_delete_title">Delete confirmation!!</string>
+    <string name="confirm_delete_msg">This operation is not reversible, are you sure you want to continue?</string>
     <string name="menu_todos">ToDos</string>
 </resources>

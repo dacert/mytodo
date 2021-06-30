@@ -11,7 +11,7 @@
     tools:context=".ui.groups.EditGroupDialog">
 
     <TextView
-        android:id="@+id/dialog_tilte"
+        android:id="@+id/dialog_title"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
@@ -23,16 +23,16 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ProgressBar
-        android:id="@+id/group_loading"
+        android:id="@+id/dialog_loading"
         style="@android:style/Widget.Material.ProgressBar.Horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:indeterminate="true"
         android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="@+id/dialog_tilte"
-        app:layout_constraintStart_toStartOf="@+id/dialog_tilte"
-        app:layout_constraintTop_toBottomOf="@+id/dialog_tilte" />
+        app:layout_constraintEnd_toEndOf="@+id/dialog_title"
+        app:layout_constraintStart_toStartOf="@+id/dialog_title"
+        app:layout_constraintTop_toBottomOf="@+id/dialog_title" />
 
     <TextView
         android:id="@+id/group_owner"
@@ -43,7 +43,7 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/dialog_tilte" />
+        app:layout_constraintTop_toBottomOf="@+id/dialog_title" />
 
     <EditText
         android:id="@+id/group_name"
@@ -87,7 +87,7 @@
         app:layout_constraintTop_toBottomOf="@+id/group_members">
 
         <Button
-            android:id="@+id/delete_group"
+            android:id="@+id/dialog_action_delete"
             style="@style/Widget.MaterialComponents.Button.TextButton.Dialog.Flush"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -100,7 +100,7 @@
             android:visibility="gone" />
 
         <Button
-            android:id="@+id/cancel_group"
+            android:id="@+id/dialog_action_cancel"
             style="@style/Widget.MaterialComponents.Button.TextButton.Dialog.Flush"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -111,7 +111,7 @@
             android:text="@string/action_cancel" />
 
         <Button
-            android:id="@+id/save_group"
+            android:id="@+id/dialog_action_save"
             style="@style/Widget.MaterialComponents.Button.TextButton.Dialog.Flush"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
