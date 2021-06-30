@@ -2,183 +2,125 @@
 
 import android.os.Bundle
 import android.text.Editable
-import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.WindowManager
 import android.widget.*
-import androidx.appcompat.app.AlertDialog
-import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import pt.ipleiria.mytodo.R
+import pt.ipleiria.mytodo.base.EditDialog
+import pt.ipleiria.mytodo.dataLayer.models.Base
 import pt.ipleiria.mytodo.dataLayer.models.Group
 import pt.ipleiria.mytodo.shared.SharedUser
 import pt.ipleiria.mytodo.ui.groups.viewModels.EditGroupDialogViewModel
 
 
-<span class="nc" id="L21">class EditGroupDialog : DialogFragment() {</span>
+<span class="nc" id="L18">class EditGroupDialog : EditDialog&lt;EditGroupDialogViewModel&gt;(EditGroupDialogViewModel::class.java) {</span>
 
     companion object {
         const val TAG = &quot;EditGroupDialog&quot;
-        private const val KEY_TITLE = &quot;KEY_TITLE&quot;
-        private const val KEY_DATA = &quot;KEY_DATA&quot;
 
-        fun newInstance(title: String, data: Group?): EditGroupDialog {
+        fun newInstance(title: String, data: Base?): EditGroupDialog {
             val args = Bundle()
             args.putString(KEY_TITLE, title)
             args.putSerializable(KEY_DATA, data)
+
             val fragment = EditGroupDialog()
             fragment.arguments = args
             return fragment
         }
     }
 
-    private lateinit var viewModel: EditGroupDialogViewModel
-<span class="nc" id="L39">    lateinit var listener: EditGroupListener</span>
+    private var group: Group? = null
+    private lateinit var membersEditText: EditText
+    private lateinit  var nameEditText: EditText
+    private lateinit var ownerText: TextView
+<span class="nc" id="L38">    lateinit var listener: EditGroupListener</span>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-<span class="nc" id="L45">        return inflater.inflate(R.layout.edit_group_dialog, container, false)</span>
+<span class="nc" id="L44">        return inflater.inflate(R.layout.edit_group_dialog, container, false)</span>
     }
 
-    override fun onStart() {
-<span class="nc" id="L49">        super.onStart()</span>
-<span class="nc bnc" id="L50" title="All 4 branches missed.">        dialog?.window?.setLayout(</span>
-<span class="nc" id="L51">            WindowManager.LayoutParams.MATCH_PARENT,</span>
-<span class="nc" id="L52">            WindowManager.LayoutParams.WRAP_CONTENT</span>
-        )
-<span class="nc" id="L54">    }</span>
+    override fun onInit(view: View) {
+<span class="nc bnc" id="L48" title="All 2 branches missed.">        group = arguments?.getSerializable(KEY_DATA) as Group?</span>
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-<span class="nc" id="L57">        super.onViewCreated(view, savedInstanceState)</span>
-<span class="nc" id="L58">        viewModel = ViewModelProvider(this).get(EditGroupDialogViewModel::class.java)</span>
-<span class="nc" id="L59">        dialog!!.setCanceledOnTouchOutside(false)</span>
-
-<span class="nc" id="L61">        val titleText = view.findViewById&lt;TextView&gt;(R.id.dialog_tilte)</span>
-<span class="nc" id="L62">        val ownerText = view.findViewById&lt;TextView&gt;(R.id.group_owner)</span>
-<span class="nc" id="L63">        val nameEditText = view.findViewById&lt;EditText&gt;(R.id.group_name)</span>
-<span class="nc" id="L64">        val membersEditText = view.findViewById&lt;EditText&gt;(R.id.group_members)</span>
-<span class="nc" id="L65">        val saveButton = view.findViewById&lt;Button&gt;(R.id.save_group)</span>
-<span class="nc" id="L66">        val cancelButton = view.findViewById&lt;Button&gt;(R.id.cancel_group)</span>
-<span class="nc" id="L67">        val deleteButton = view.findViewById&lt;Button&gt;(R.id.delete_group)</span>
-<span class="nc" id="L68">        val loadingProgressBar = view.findViewById&lt;ProgressBar&gt;(R.id.group_loading)</span>
-
-        //set title
-<span class="nc bnc" id="L71" title="All 2 branches missed.">        titleText.text = arguments?.getString(KEY_TITLE)</span>
-<span class="nc bnc" id="L72" title="All 2 branches missed.">        val group = arguments?.getSerializable(KEY_DATA) as Group?</span>
+<span class="nc" id="L50">        ownerText = view.findViewById(R.id.group_owner)</span>
+<span class="nc" id="L51">        nameEditText = view.findViewById(R.id.group_name)</span>
+<span class="nc" id="L52">        membersEditText = view.findViewById(R.id.group_members)</span>
 
         //fil form
-<span class="nc bnc" id="L75" title="All 4 branches missed.">        nameEditText.setText(group?.name ?: &quot;&quot;)</span>
-<span class="nc bnc" id="L76" title="All 4 branches missed.">        ownerText.text = &quot;Owner: ${group?.owner ?: SharedUser.email}&quot;</span>
-<span class="nc bnc" id="L77" title="All 6 branches missed.">        membersEditText.setText(group?.members?.joinToString(&quot;;&quot;) ?: &quot;&quot;)</span>
+<span class="nc bnc" id="L55" title="All 4 branches missed.">        nameEditText.setText(group?.name ?: &quot;&quot;)</span>
+<span class="nc bnc" id="L56" title="All 4 branches missed.">        ownerText.text = &quot;Owner: ${group?.owner ?: SharedUser.email}&quot;</span>
+<span class="nc bnc" id="L57" title="All 6 branches missed.">        membersEditText.setText(group?.members?.joinToString(&quot;;&quot;) ?: &quot;&quot;)</span>
 
-<span class="nc bnc" id="L79" title="All 2 branches missed.">        val isNew = group == null</span>
-<span class="nc bnc" id="L80" title="All 4 branches missed.">        val isOwner = group != null &amp;&amp; group.owner == SharedUser.email</span>
+<span class="nc bnc" id="L59" title="All 4 branches missed.">        nameEditText.isEnabled = isNew() || isOwner()</span>
+<span class="nc bnc" id="L60" title="All 4 branches missed.">        membersEditText.isEnabled = isNew() || isOwner()</span>
 
-<span class="nc bnc" id="L82" title="All 2 branches missed.">        deleteButton.visibility = if(isOwner) View.VISIBLE else View.GONE</span>
-<span class="nc bnc" id="L83" title="All 4 branches missed.">        saveButton.visibility = if(isNew || isOwner) View.VISIBLE else View.GONE</span>
-<span class="nc bnc" id="L84" title="All 2 branches missed.">        saveButton.isEnabled = !isNew</span>
-<span class="nc bnc" id="L85" title="All 4 branches missed.">        nameEditText.isEnabled = isNew || isOwner</span>
-<span class="nc bnc" id="L86" title="All 4 branches missed.">        membersEditText.isEnabled = isNew || isOwner</span>
-
-<span class="nc" id="L88">        viewModel.dataLoading.observe(this, Observer { isLoading -&gt;</span>
-<span class="nc bnc" id="L89" title="All 2 branches missed.">            if (isLoading == null) {</span>
-<span class="nc" id="L90">                return@Observer</span>
-            }
-<span class="nc bnc" id="L92" title="All 2 branches missed.">            loadingProgressBar.visibility = if(isLoading) View.VISIBLE else View.GONE</span>
-<span class="nc" id="L93">        })</span>
-
-<span class="nc" id="L95">        viewModel.toastMessage.observe(this, Observer {</span>
-<span class="nc bnc" id="L96" title="All 4 branches missed.">            if(it.isNotEmpty()) Toast.makeText(requireContext(), it, Toast.LENGTH_LONG).show()</span>
-<span class="nc" id="L97">        })</span>
-
-<span class="nc" id="L99">        viewModel.formState.observe(this,</span>
-<span class="nc" id="L100">            Observer { state -&gt;</span>
-<span class="nc bnc" id="L101" title="All 2 branches missed.">                if (state == null) {</span>
-<span class="nc" id="L102">                    return@Observer</span>
+<span class="nc" id="L62">        viewModel.formState.observe(this,</span>
+<span class="nc" id="L63">            Observer { state -&gt;</span>
+<span class="nc bnc" id="L64" title="All 2 branches missed.">                if (state == null) {</span>
+<span class="nc" id="L65">                    return@Observer</span>
                 }
-<span class="nc" id="L104">                saveButton.isEnabled = state.isDataValid</span>
-<span class="nc bnc" id="L105" title="All 2 branches missed.">                state.nameError?.let {</span>
-<span class="nc" id="L106">                    nameEditText.error = getString(it)</span>
-<span class="nc" id="L107">                }</span>
-<span class="nc bnc" id="L108" title="All 2 branches missed.">                state.membersError?.let {</span>
-<span class="nc" id="L109">                    membersEditText.error = getString(it)</span>
-<span class="nc" id="L110">                }</span>
-<span class="nc" id="L111">            })</span>
-
-<span class="nc" id="L113">        val afterTextChangedListener = object : TextWatcher {</span>
-            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
-                // ignore
-<span class="nc" id="L116">            }</span>
-
-            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-                // ignore
-<span class="nc" id="L120">            }</span>
-
-            override fun afterTextChanged(s: Editable) {
-<span class="nc" id="L123">                viewModel.dataChanged(</span>
-<span class="nc" id="L124">                    nameEditText.text.toString(),</span>
-<span class="nc" id="L125">                    membersEditText.text.toString()</span>
-                )
-<span class="nc" id="L127">            }</span>
-        }
-<span class="nc" id="L129">        nameEditText.addTextChangedListener(afterTextChangedListener)</span>
-<span class="nc" id="L130">        membersEditText.addTextChangedListener(afterTextChangedListener)</span>
-
-<span class="nc" id="L132">        cancelButton.setOnClickListener {</span>
-<span class="nc" id="L133">            dismiss()</span>
-<span class="nc" id="L134">        }</span>
-
-<span class="nc" id="L136">        deleteButton.setOnClickListener {</span>
-<span class="nc" id="L137">            showDeleteConfirmation(group!!.id){ isSuccess -&gt;</span>
-<span class="nc" id="L138">                listener.onSaved(isSuccess)</span>
-<span class="nc bnc" id="L139" title="All 2 branches missed.">                if(isSuccess) {</span>
-<span class="nc" id="L140">                    dismiss()</span>
-                }
-<span class="nc" id="L142">            }</span>
-<span class="nc" id="L143">        }</span>
+<span class="nc" id="L67">                saveButton.isEnabled = state.isDataValid</span>
+<span class="nc bnc" id="L68" title="All 2 branches missed.">                state.nameError?.let {</span>
+<span class="nc" id="L69">                    nameEditText.error = getString(it)</span>
+<span class="nc" id="L70">                }</span>
+<span class="nc bnc" id="L71" title="All 2 branches missed.">                state.membersError?.let {</span>
+<span class="nc" id="L72">                    membersEditText.error = getString(it)</span>
+<span class="nc" id="L73">                }</span>
+<span class="nc" id="L74">            })</span>
 
 
-<span class="nc" id="L146">        val onComplete = onComplete@ { isSuccess: Boolean -&gt;</span>
-<span class="nc" id="L147">            listener.onSaved(isSuccess)</span>
-<span class="nc bnc" id="L148" title="All 2 branches missed.">            if(isSuccess) {</span>
-<span class="nc" id="L149">                dismiss()</span>
+<span class="nc" id="L77">        nameEditText.addTextChangedListener(afterTextChangedListener)</span>
+<span class="nc" id="L78">        membersEditText.addTextChangedListener(afterTextChangedListener)</span>
+
+<span class="nc" id="L80">        val onComplete = onComplete@ { isSuccess: Boolean -&gt;</span>
+<span class="nc" id="L81">            listener.onSaved(isSuccess)</span>
+<span class="nc bnc" id="L82" title="All 2 branches missed.">            if(isSuccess) {</span>
+<span class="nc" id="L83">                dismiss()</span>
             }
-<span class="nc" id="L151">            return@onComplete</span>
+<span class="nc" id="L85">            return@onComplete</span>
         }
 
-<span class="nc" id="L154">        saveButton.setOnClickListener {</span>
-<span class="nc bnc" id="L155" title="All 2 branches missed.">            if(isNew){</span>
-<span class="nc" id="L156">                viewModel.add(</span>
-<span class="nc bnc" id="L157" title="All 2 branches missed.">                    nameEditText.text.toString().trim(),</span>
-<span class="nc bnc" id="L158" title="All 2 branches missed.">                    membersEditText.text.toString().trim(),</span>
-<span class="nc" id="L159">                    onComplete)</span>
+<span class="nc" id="L88">        saveButton.setOnClickListener {</span>
+<span class="nc bnc" id="L89" title="All 2 branches missed.">            if(isNew()){</span>
+<span class="nc" id="L90">                viewModel.add(</span>
+<span class="nc bnc" id="L91" title="All 2 branches missed.">                    nameEditText.text.toString().trim(),</span>
+<span class="nc bnc" id="L92" title="All 2 branches missed.">                    membersEditText.text.toString().trim(),</span>
+<span class="nc" id="L93">                    onComplete)</span>
             } else {
-<span class="nc" id="L161">                viewModel.edit(group!!,</span>
-<span class="nc bnc" id="L162" title="All 2 branches missed.">                    nameEditText.text.toString().trim(),</span>
-<span class="nc bnc" id="L163" title="All 2 branches missed.">                    membersEditText.text.toString().trim(),</span>
-<span class="nc" id="L164">                    onComplete</span>
+<span class="nc" id="L95">                viewModel.edit(group!!,</span>
+<span class="nc bnc" id="L96" title="All 2 branches missed.">                    nameEditText.text.toString().trim(),</span>
+<span class="nc bnc" id="L97" title="All 2 branches missed.">                    membersEditText.text.toString().trim(),</span>
+<span class="nc" id="L98">                    onComplete</span>
                 )
             }
-<span class="nc" id="L167">        }</span>
-<span class="nc" id="L168">    }</span>
+<span class="nc" id="L101">        }</span>
+<span class="nc" id="L102">    }</span>
 
-    private fun showDeleteConfirmation(id: String, onDelete: (isSuccess: Boolean) -&gt; Unit) {
-<span class="nc" id="L171">        val builder = AlertDialog.Builder(requireContext())</span>
-<span class="nc" id="L172">        with(builder){</span>
-<span class="nc" id="L173">            setTitle(R.string.confirm_delete_title)</span>
-<span class="nc" id="L174">            setMessage(R.string.confirm_delete_msg)</span>
-<span class="nc" id="L175">            setNegativeButton(R.string.action_cancel) { _, _ -&gt; Unit }</span>
-<span class="nc" id="L176">            setPositiveButton(R.string.action_ok) { _, _ -&gt;</span>
-<span class="nc" id="L177">                viewModel.remove(id, onDelete)</span>
-<span class="nc" id="L178">            }</span>
-<span class="nc" id="L179">            show()</span>
-        }
-<span class="nc" id="L181">    }</span>
+    override fun afterTextChanged(s: Editable) {
+<span class="nc" id="L105">        viewModel.dataChanged(</span>
+<span class="nc" id="L106">            nameEditText.text.toString(),</span>
+<span class="nc" id="L107">            membersEditText.text.toString()</span>
+        )
+<span class="nc" id="L109">    }</span>
+
+    override fun onRemove() {
+<span class="nc" id="L112">        viewModel.remove(group!!.id){ isSuccess -&gt;</span>
+<span class="nc" id="L113">            listener.onSaved(isSuccess)</span>
+<span class="nc bnc" id="L114" title="All 2 branches missed.">            if(isSuccess) {</span>
+<span class="nc" id="L115">                dismiss()</span>
+            }
+<span class="nc" id="L117">        }</span>
+<span class="nc" id="L118">    }</span>
+
+    override fun isOwner(): Boolean {
+<span class="nc bnc" id="L121" title="All 2 branches missed.">        val data = arguments?.getSerializable(KEY_DATA) as Group?</span>
+<span class="nc bnc" id="L122" title="All 2 branches missed.">        return data?.owner == SharedUser.email</span>
+    }
 
     interface EditGroupListener {
         fun onSaved(isSuccess: Boolean)

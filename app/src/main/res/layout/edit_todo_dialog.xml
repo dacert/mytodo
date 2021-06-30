@@ -11,7 +11,7 @@
     tools:context=".ui.groups.EditGroupDialog">
 
     <TextView
-        android:id="@+id/dialog_tilte"
+        android:id="@+id/dialog_title"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
@@ -23,16 +23,16 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ProgressBar
-        android:id="@+id/todo_loading"
+        android:id="@+id/dialog_loading"
         style="@android:style/Widget.Material.ProgressBar.Horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:indeterminate="true"
         android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="@+id/dialog_tilte"
-        app:layout_constraintStart_toStartOf="@+id/dialog_tilte"
-        app:layout_constraintTop_toBottomOf="@+id/dialog_tilte" />
+        app:layout_constraintEnd_toEndOf="@+id/dialog_title"
+        app:layout_constraintStart_toStartOf="@+id/dialog_title"
+        app:layout_constraintTop_toBottomOf="@+id/dialog_title" />
 
     <EditText
         android:id="@+id/todo_text"
@@ -48,7 +48,7 @@
         android:singleLine="false"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/dialog_tilte" />
+        app:layout_constraintTop_toBottomOf="@+id/dialog_title" />
 
     <LinearLayout
         android:id="@+id/todo_actions"
@@ -62,7 +62,7 @@
         app:layout_constraintTop_toBottomOf="@+id/todo_text">
 
         <Button
-            android:id="@+id/delete_todo"
+            android:id="@+id/dialog_action_delete"
             style="@style/Widget.MaterialComponents.Button.TextButton.Dialog.Flush"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -75,7 +75,7 @@
             android:visibility="gone" />
 
         <Button
-            android:id="@+id/cancel_todo"
+            android:id="@+id/dialog_action_cancel"
             style="@style/Widget.MaterialComponents.Button.TextButton.Dialog.Flush"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -86,7 +86,7 @@
             android:text="@string/action_cancel" />
 
         <Button
-            android:id="@+id/save_todo"
+            android:id="@+id/dialog_action_save"
             style="@style/Widget.MaterialComponents.Button.TextButton.Dialog.Flush"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
