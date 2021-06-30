@@ -10,7 +10,7 @@ import org.jetbrains.anko.sdk27.coroutines.onClick
 import pt.ipleiria.mytodo.BR
 import pt.ipleiria.mytodo.R
 import pt.ipleiria.mytodo.base.OnItemClickListener
-import pt.ipleiria.mytodo.models.Group
+import pt.ipleiria.mytodo.dataLayer.models.Group
 
 class GroupViewHolder constructor(private val dataBinding: ViewDataBinding)
     : RecyclerView.ViewHolder(dataBinding.root) {

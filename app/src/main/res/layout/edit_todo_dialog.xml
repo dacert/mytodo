@@ -62,6 +62,19 @@
         app:layout_constraintTop_toBottomOf="@+id/todo_text">
 
         <Button
+            android:id="@+id/delete_todo"
+            style="@style/Widget.MaterialComponents.Button.TextButton.Dialog.Flush"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_weight="1"
+            android:text="@string/action_delete"
+            android:textColor="#E91E63"
+            android:visibility="gone" />
+
+        <Button
             android:id="@+id/cancel_todo"
             style="@style/Widget.MaterialComponents.Button.TextButton.Dialog.Flush"
             android:layout_width="wrap_content"

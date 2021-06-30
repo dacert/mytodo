@@ -13,8 +13,8 @@ import pt.ipleiria.mytodo.adapters.GroupsAdapter
 import pt.ipleiria.mytodo.R
 import pt.ipleiria.mytodo.base.OnItemClickListener
 import pt.ipleiria.mytodo.databinding.GroupsFragmentBinding
-import pt.ipleiria.mytodo.models.Base
-import pt.ipleiria.mytodo.models.Group
+import pt.ipleiria.mytodo.dataLayer.models.Base
+import pt.ipleiria.mytodo.dataLayer.models.Group
 import pt.ipleiria.mytodo.ui.groups.viewModels.GroupsViewModel
 
 class GroupsFragment : Fragment(), EditGroupDialog.EditGroupListener, OnItemClickListener {

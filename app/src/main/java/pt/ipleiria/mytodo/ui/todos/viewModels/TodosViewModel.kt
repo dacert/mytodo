@@ -3,10 +3,8 @@ package pt.ipleiria.mytodo.ui.todos.viewModels
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.firestore.*
-import pt.ipleiria.mytodo.shared.SharedUser
 import pt.ipleiria.mytodo.base.BaseViewModel
-import pt.ipleiria.mytodo.models.Group
-import pt.ipleiria.mytodo.models.Todo
+import pt.ipleiria.mytodo.dataLayer.models.Todo
 import pt.ipleiria.mytodo.shared.SharedFireBase
 
 class TodosViewModel : BaseViewModel() {

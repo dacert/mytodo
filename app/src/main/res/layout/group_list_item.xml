@@ -5,7 +5,7 @@
         <import type="android.view.View" />
         <variable
             name="data"
-            type="pt.ipleiria.mytodo.models.Group" />
+            type="pt.ipleiria.mytodo.dataLayer.models.Group" />
     </data>
 
     <RelativeLayout

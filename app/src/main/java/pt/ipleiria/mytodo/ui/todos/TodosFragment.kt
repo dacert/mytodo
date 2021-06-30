@@ -14,8 +14,7 @@ import pt.ipleiria.mytodo.R
 import pt.ipleiria.mytodo.adapters.TodosAdapter
 import pt.ipleiria.mytodo.base.OnItemClickListener
 import pt.ipleiria.mytodo.databinding.TodosFragmentBinding
-import pt.ipleiria.mytodo.models.Base
-import pt.ipleiria.mytodo.ui.groups.EditGroupDialog
+import pt.ipleiria.mytodo.dataLayer.models.Base
 import pt.ipleiria.mytodo.ui.todos.viewModels.TodosViewModel
 
 class TodosFragment : Fragment(), OnItemClickListener {
@@ -42,7 +41,7 @@ class TodosFragment : Fragment(), OnItemClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewDataBinding.viewmodel?.fetchList(args?.id)
+        viewDataBinding.viewmodel?.fetchList(args.id)
 
         setupAdapter()
         setupObservers()
@@ -79,14 +78,14 @@ class TodosFragment : Fragment(), OnItemClickListener {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         val id = item.itemId
         if(id == R.id.action_add_todo) {
-            val dialog = EditTodoDialog.newInstance("Add new to-do", args?.id, null)
+            val dialog = EditTodoDialog.newInstance("Add new to-do", args.id, null)
             dialog.show(parentFragmentManager, EditTodoDialog.TAG)
         }
         return super.onOptionsItemSelected(item)
     }
 
     override fun onClick(item: Base) {
-        val dialog = EditTodoDialog.newInstance("Details", args?.id, item)
+        val dialog = EditTodoDialog.newInstance("Details", args.id, item)
         dialog.show(parentFragmentManager, EditTodoDialog.TAG)
     }
 }

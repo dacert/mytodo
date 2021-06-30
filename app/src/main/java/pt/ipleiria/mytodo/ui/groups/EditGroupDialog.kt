@@ -13,7 +13,7 @@ import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import pt.ipleiria.mytodo.R
-import pt.ipleiria.mytodo.models.Group
+import pt.ipleiria.mytodo.dataLayer.models.Group
 import pt.ipleiria.mytodo.shared.SharedUser
 import pt.ipleiria.mytodo.ui.groups.viewModels.EditGroupDialogViewModel
 
@@ -77,7 +77,7 @@ class EditGroupDialog : DialogFragment() {
         membersEditText.setText(group?.members?.joinToString(";") ?: "")
 
         val isNew = group == null
-        val isOwner = group != null && group?.owner == SharedUser.email
+        val isOwner = group != null && group.owner == SharedUser.email
 
         deleteButton.visibility = if(isOwner) View.VISIBLE else View.GONE
         saveButton.visibility = if(isNew || isOwner) View.VISIBLE else View.GONE
@@ -174,7 +174,7 @@ class EditGroupDialog : DialogFragment() {
             setMessage(R.string.confirm_delete_msg)
             setNegativeButton(R.string.action_cancel) { _, _ -> Unit }
             setPositiveButton(R.string.action_ok) { _, _ ->
-                viewModel.delete(id, onDelete)
+                viewModel.remove(id, onDelete)
             }
             show()
         }

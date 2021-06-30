@@ -8,12 +8,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.*
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import pt.ipleiria.mytodo.R
-import pt.ipleiria.mytodo.models.Base
-import pt.ipleiria.mytodo.models.Todo
+import pt.ipleiria.mytodo.dataLayer.models.Base
+import pt.ipleiria.mytodo.dataLayer.models.Todo
 import pt.ipleiria.mytodo.shared.SharedUser
 import pt.ipleiria.mytodo.ui.todos.viewModels.EditTodoDialogViewModel
 
@@ -65,6 +66,7 @@ class EditTodoDialog : DialogFragment() {
 
         val saveButton = view.findViewById<Button>(R.id.save_todo)
         val cancelButton = view.findViewById<Button>(R.id.cancel_todo)
+        val deleteButton = view.findViewById<Button>(R.id.delete_todo)
 
         val loadingProgressBar = view.findViewById<ProgressBar>(R.id.todo_loading)
 
@@ -75,8 +77,9 @@ class EditTodoDialog : DialogFragment() {
 
         textEditText.setText(todo?.text ?: "")
         val isNew = todo == null
-        val isOwner = todo != null && todo?.by == SharedUser.email
+        val isOwner = todo != null && todo.by == SharedUser.email
 
+        deleteButton.visibility = if(isOwner) View.VISIBLE else View.GONE
         saveButton.visibility = if(isNew || isOwner) View.VISIBLE else View.GONE
         saveButton.isEnabled = !isNew
         textEditText.isEnabled = isNew || isOwner
@@ -122,6 +125,14 @@ class EditTodoDialog : DialogFragment() {
             dismiss()
         }
 
+        deleteButton.setOnClickListener {
+            showDeleteConfirmation(groupId, todo!!.id){ isSuccess ->
+                if(isSuccess) {
+                    dismiss()
+                }
+            }
+        }
+
         val onComplete = onComplete@ { isSuccess: Boolean ->
             if(isSuccess) {
                 dismiss()
@@ -141,6 +152,19 @@ class EditTodoDialog : DialogFragment() {
                     textEditText.text.toString().trim(),
                     onComplete)
             }
+        }
+    }
+
+    private fun showDeleteConfirmation(groupId: String, id: String, onDelete: (isSuccess: Boolean) -> Unit) {
+        val builder = AlertDialog.Builder(requireContext())
+        with(builder){
+            setTitle(R.string.confirm_delete_title)
+            setMessage(R.string.confirm_delete_msg)
+            setNegativeButton(R.string.action_cancel) { _, _ -> Unit }
+            setPositiveButton(R.string.action_ok) { _, _ ->
+                viewModel.remove(groupId, id, onDelete)
+            }
+            show()
         }
     }
 }

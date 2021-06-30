@@ -6,6 +6,6 @@ This was created for educational purposes.
 ### Features
 * Authentication and registration system
 * Management Groups
-##### Coming soon
 * Management ToDos
+##### Coming soon
 * Monitoring ToDos

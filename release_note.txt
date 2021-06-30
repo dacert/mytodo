@@ -1,3 +1,2 @@
 New
-Add edit to-do capability
-- Can only be edited by creators of the to-do
+Add delete to-do capability
