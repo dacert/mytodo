@@ -1,5 +1,9 @@
 # MyToDo changelog
 
+# 30/06/2021 (Version 1.6)
+### Changes
+- Refactor dialogs to avoid duplicate code
+
 # 30/06/2021 (Version 1.5)
 ### New
 - Add delete to-do capability
