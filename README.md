@@ -17,4 +17,4 @@ This was created for educational purposes.
 gradlew clean testDebugUnitTestCoverage
 
 #### SonarQube
-gradlew cleam sonarqube
+gradlew clean sonarqube
